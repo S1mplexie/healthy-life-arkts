@@ -7,7 +7,6 @@
 
 # Build
 .hvigor/
-hvigor/
 build/
 oh_modules/
 
@@ -19,5 +18,4 @@ local.properties
 .DS_Store
 Thumbs.db
 
-# Node/OpenHarmony
-oh-package-lock.json5
+
