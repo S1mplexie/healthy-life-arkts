@@ -19,10 +19,12 @@ import {
   columnDayInfoList,
   columnGlobalInfoList,
   columnTaskInfoInfoList,
-  columnFormInfoList
+  columnFormInfoList,
+  columnUserInfoList
 } from '../model/RdbColumnModel';
 import RdbUtils from '../common/database/rdb/RdbUtils';
 import Logger from '../common/utils/Logger';
+import ColumnInfo from '../viewmodel/ColumnInfo';
 import FormUtils from '../common/utils/FormUtils';
 import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
@@ -59,6 +61,16 @@ export default class EntryAbility extends UIAbility {
       .catch((err: Error) => {
         Logger.error(`RdbHelper formInfo err : ${JSON.stringify(err)}`);
       });
+    await RdbUtils.createTable(Const.USER_INFO.tableName ? Const.USER_INFO.tableName : '', columnUserInfoList)
+      .then(() => {
+        Logger.info(`RdbHelper createTable userInfo success`);
+      }).catch((err: Error) => {
+        Logger.error(`RdbHelper userInfo createTable err : ${JSON.stringify(err)}`);
+      });
+    await RdbUtils.addTableColumn(Const.USER_INFO.tableName ? Const.USER_INFO.tableName : '',
+      new ColumnInfo('signature', 'text', -1, false, false, false)).then(() => {
+      Logger.info(`RdbHelper addColumn signature success`);
+    }).catch(() => {});
   }
 
   onWindowStageCreate(windowStage: window.WindowStage) {

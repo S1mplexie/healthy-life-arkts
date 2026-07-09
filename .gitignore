@@ -1,0 +1,23 @@
+# IDE
+.idea/
+.arts/
+.jlsp/
+.codeartsdoer/
+.clang-format
+
+# Build
+.hvigor/
+hvigor/
+build/
+oh_modules/
+
+# Local config
+local.properties
+.preferences/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node/OpenHarmony
+oh-package-lock.json5

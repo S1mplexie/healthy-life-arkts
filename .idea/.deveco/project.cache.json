@@ -1,6 +1,6 @@
 {
 	"CommonInfo":{
-		"project.ide.version":"5.1.1.820",
+		"project.ide.version":"6.0.0.878",
 		"current.select.product":"default",
 		"current.select.buildMode":"",
 		"crossplatform.projectType":""
@@ -9,7 +9,7 @@
 		"SELECT_BUILD_PRODUCT":"default",
 		"BUNDLE_NAME":"com.example.healthy_life",
 		"BUILD_PATH":{
-			"OUTPUT_PATH":"C:\\Users\\g00422538\\Downloads\\codelabs-master\\codelabs-master\\Healthy_life\\build\\outputs\\default"
+			"OUTPUT_PATH":"D:\\Hongmeng\\healthy_-life\\build\\outputs\\default"
 		},
 		"SELECT_BUILD_MODE":""
 	}

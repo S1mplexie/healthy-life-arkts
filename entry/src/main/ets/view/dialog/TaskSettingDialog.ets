@@ -16,7 +16,7 @@
 import prompt from '@system.prompt';
 import { ITaskItem } from '../../model/TaskInitList';
 import { frequencyRange } from '../../common/utils/Utils';
-import { returnTimeStamp, createAppleRange, createDrinkRange, formatTime } from '../../viewmodel/TaskViewModel';
+import { returnTimeStamp, createAppleRange, createDrinkRange, createTimesRange, formatTime } from '../../viewmodel/TaskViewModel';
 import { taskType } from '../../viewmodel/TaskInfo';
 import { CommonConstants as Const } from '../..//common/constants/CommonConstants';
 import { FrequencyContentType } from '../../model/TaskInitList';
@@ -27,6 +27,7 @@ export struct TargetSettingDialog {
   controller: CustomDialogController = new CustomDialogController({ builder: '' });
   drinkRange: string[] = createDrinkRange();
   appleRange: string[] = createAppleRange();
+  timesRange: string[] = createTimesRange();
   currentValue: string = this.settingParams.targetValue;
   currentTime: string = Const.DEFAULT_TIME;
 
@@ -81,8 +82,22 @@ export struct TargetSettingDialog {
           .onChange((value: TimePickerResult) => {
             this.currentTime = formatTime(value);
           })
+      } else if (this.settingParams?.taskID === taskType.drinkWater) {
+        TextPicker({ range: this.drinkRange })
+          .width(Const.THOUSANDTH_900,)
+          .height(Const.THOUSANDTH_800,)
+          .onChange((value) => {
+            this.currentValue =  (value as string)?.split(' ')[0];
+          })
+      } else if (this.settingParams?.taskID === taskType.smile || this.settingParams?.taskID === taskType.brushTeeth) {
+        TextPicker({ range: this.timesRange })
+          .width(Const.THOUSANDTH_900,)
+          .height(Const.THOUSANDTH_800,)
+          .onChange((value) => {
+            this.currentValue =  (value as string)?.split(' ')[0];
+          })
       } else {
-        TextPicker({ range: this.settingParams?.taskID === taskType.drinkWater ? this.drinkRange : this.appleRange })
+        TextPicker({ range: this.appleRange })
           .width(Const.THOUSANDTH_900,)
           .height(Const.THOUSANDTH_800,)
           .onChange((value) => {
@@ -171,7 +186,21 @@ export struct FrequencyDialog {
   @Consume frequency: string;
   private controller: CustomDialogController = new CustomDialogController({ builder: '' });
   private currentFrequency: string = Const.EVERYDAY;
-  private frequencyChooseRange: FrequencyContentType[] = frequencyRange();
+  private frequencyChooseRange: FrequencyContentType[] = FrequencyDialog.initFrequencyChooseRange(this.settingParams?.frequency);
+
+  static initFrequencyChooseRange(frequencyStr: string): FrequencyContentType[] {
+    const range = frequencyRange();
+    if (!frequencyStr || frequencyStr === '') {
+      return range;
+    }
+    const selectedIds = frequencyStr.split(',').map(item => Number(item.trim()));
+    range.forEach((item) => {
+      if (selectedIds.includes(item.id)) {
+        item.isChecked = true;
+      }
+    });
+    return range;
+  }
 
   setFrequency() {
     const checkedArr = this.frequencyChooseRange.filter((item) => item?.isChecked)
@@ -204,7 +233,7 @@ export struct FrequencyDialog {
           ListItem() {
             Row() {
               Text(item?.label).fontSize(Const.DEFAULT_20)
-              Toggle({ type: ToggleType.Checkbox })
+              Toggle({ type: ToggleType.Checkbox, isOn: item.isChecked })
                 .onChange((isOn) => {
                   item.isChecked = isOn;
                 })

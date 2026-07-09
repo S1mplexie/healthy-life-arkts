@@ -14,6 +14,7 @@
  */
 
 import { MineInfoList, InfoItem } from '../model/Mine';
+import router from '@ohos.router';
 
 @Component
 export struct ListInfo {
@@ -40,6 +41,11 @@ export struct ListInfo {
         .border({
           width: { bottom: $r('app.float.default_1') },
           color: $r('app.color.borderColor')
+        })
+        .onClick(() => {
+          if (item.id === '1') {
+            router.pushUrl({ url: 'pages/ProfilePage' });
+          }
         })
 
       }, (item: InfoItem) => JSON.stringify(item));

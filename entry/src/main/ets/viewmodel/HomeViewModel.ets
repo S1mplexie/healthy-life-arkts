@@ -130,7 +130,7 @@ export class HomeStore {
       let endTime = editedTaskInfo.endTime;
       let isOpen = editedTaskInfo.isOpen;
       let task = new TaskInfo(0, dateToStr(new Date()), taskID, targetValue, isAlarm,
-        startTime, endTime, frequency, true, targetValue, isOpen);
+        startTime, endTime, frequency, false, '', isOpen);
       this.dateArr = this.dateArr.map((item: WeekDateModel) => {
         if (task.date === item.dateStr) {
           Logger.info('item', JSON.stringify(item));

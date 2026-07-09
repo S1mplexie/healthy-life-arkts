@@ -50,3 +50,14 @@ export const columnFormInfoList: Array<ColumnInfo> = [
   new ColumnInfo('formDimension', 'integer', -1, false, false, false)
 ];
 
+export const columnUserInfoList: Array<ColumnInfo> = [
+  new ColumnInfo('id', 'integer', -1, true, true, false),
+  new ColumnInfo('avatar', 'text', -1, false, false, false),
+  new ColumnInfo('nickname', 'text', -1, false, false, false),
+  new ColumnInfo('signature', 'text', -1, false, false, false),
+  new ColumnInfo('gender', 'text', -1, false, false, false),
+  new ColumnInfo('birthday', 'text', -1, false, false, false),
+  new ColumnInfo('height', 'text', -1, false, false, false),
+  new ColumnInfo('weight', 'text', -1, false, false, false)
+];
+

@@ -16,22 +16,45 @@
 import { ListInfo } from '../view/ListInfo';
 import { UserBaseInfo } from '../view/UserBaseInfo';
 import { CommonConstants as Const } from '../common/constants/CommonConstants';
+import UserInfoApi from '../common/database/tables/UserInfoApi';
+import UserInfo from '../viewmodel/UserInfo';
 
 @Component
 export struct MineIndex {
   @State nickname: string = Const.NICK_NAME;
   @State signature: string = Const.SIGNATURE;
+  @State avatar: string = '';
+
+  aboutToAppear() {
+    this.loadUserInfo();
+  }
+
+  loadUserInfo() {
+    UserInfoApi.query((result: UserInfo | null) => {
+      if (result) {
+        this.nickname = result.nickname || Const.NICK_NAME;
+        this.signature = result.signature || '';
+        this.avatar = result.avatar;
+      }
+    });
+  }
 
   build() {
     Column() {
       UserBaseInfo({
         nickname: this.nickname,
-        signature: this.signature
+        signature: this.signature,
+        avatar: this.avatar
       });
 
       ListInfo();
     }
     .height(Const.FULL_HEIGHT)
     .backgroundColor($r('app.color.mineBgColor'))
+    .onVisibleAreaChange([0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+      if (isVisible && currentRatio > 0.0) {
+        this.loadUserInfo();
+      }
+    })
   }
 }

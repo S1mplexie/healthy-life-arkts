@@ -17,14 +17,15 @@
 export struct UserBaseInfo {
   @Prop nickname: string = '';
   @Prop signature: string = '';
+  @Prop avatar: string = '';
 
   build() {
     Column() {
-      // userIcon
-      Image($r('app.media.ic_user'))
-        .objectFit(ImageFit.Contain)
+      Image(this.avatar ? this.avatar : $r('app.media.ic_user'))
+        .objectFit(ImageFit.Cover)
         .height($r('app.float.default_66'))
         .width($r('app.float.default_66'))
+        .borderRadius(33)
         .margin({ top: $r('app.float.default_71') })
 
       Column() {
@@ -40,7 +41,6 @@ export struct UserBaseInfo {
       .backgroundColor($r('app.color.leveBgColor'))
       .justifyContent(FlexAlign.Center)
 
-      // nickname
       Text(this.nickname)
         .fontSize($r('app.float.default_20'))
         .fontFamily($r('app.string.Helvetica'))
@@ -48,8 +48,7 @@ export struct UserBaseInfo {
         .fontWeight(FontWeight.Normal)
         .fontColor($r('app.color.black'))
 
-      // signature
-      Text(this.signature).fontSize($r('app.float.default_16')).fontWeight(FontWeight.Normal)
+      Text(this.signature || '暂无个性签名').fontSize($r('app.float.default_16')).fontWeight(FontWeight.Normal)
         .fontFamily($r('app.string.PingFangSC_Regular'))
         .fontColor($r('app.color.signatureColor'))
     }

@@ -129,7 +129,7 @@ export const addTask = (params: TaskInfo, context: Context) => {
     let taskInfoStr = JSON.stringify(params);
     let taskInfo: TaskInfo = JSON.parse(taskInfoStr);
     taskInfo.date = new Date().toDateString();
-    taskInfo.isDone = true;
+    taskInfo.isDone = false;
     TaskInfoApi.updateDataByDate(taskInfo, (flag: number) => {
       if (!flag) {
         Logger.error('insertTaskSetting', 'updateTaskSetting Error!');
@@ -232,4 +232,12 @@ export const createAppleRange = () => {
     appleRangeArr.push(`${i} 个`);
   }
   return appleRangeArr;
+}
+
+export const createTimesRange = () => {
+  const timesRangeArr: Array<string> = [];
+  for (let i = 1; i <= Const.TIMES_50; i++) {
+    timesRangeArr.push(`${i} 次`);
+  }
+  return timesRangeArr;
 }

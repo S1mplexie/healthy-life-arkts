@@ -33,7 +33,6 @@ import { GlobalContext } from '../../common/utils/GlobalContext';
 export struct TaskDetailDialog {
   controller: CustomDialogController = new CustomDialogController({ builder: '' });
   @Consume currentTask: TaskInfo;
-  @State showButton: boolean = true;
   @Consume dialogCallBack: CustomDialogCallback;
 
   build() {
@@ -50,7 +49,7 @@ export struct TaskDetailDialog {
         cancel: () => {
           this.controller.close();
         },
-        showButton: this.showButton
+        isDone: this.currentTask?.isDone || false
       })
     }
     .height($r('app.float.default_451'))
@@ -89,25 +88,38 @@ struct TaskBaseInfo {
 struct TaskClock {
   confirm: Function = () => {};
   cancel: Function = () => {};
-  showButton: boolean = false;
+  isDone: boolean = false;
 
   build() {
     Column({ space: Const.DEFAULT_12 }) {
-      Button() {
-        Text($r('app.string.clock_in'))
-          .height($r('app.float.default_42'))
-          .fontSize($r('app.float.default_20'))
-          .fontWeight(FontWeight.Normal)
-          .textStyle()
+      if (this.isDone) {
+        Button() {
+          Text($r('app.string.task_done'))
+            .height($r('app.float.default_42'))
+            .fontSize($r('app.float.default_20'))
+            .fontWeight(FontWeight.Normal)
+            .textStyle()
+        }
+        .width($r('app.float.default_220'))
+        .borderRadius($r('app.float.default_24'))
+        .backgroundColor('rgba(200,200,200,0.50)')
+        .enabled(false)
+      } else {
+        Button() {
+          Text($r('app.string.clock_in'))
+            .height($r('app.float.default_42'))
+            .fontSize($r('app.float.default_20'))
+            .fontWeight(FontWeight.Normal)
+            .textStyle()
+        }
+        .width($r('app.float.default_220'))
+        .borderRadius($r('app.float.default_24'))
+        .backgroundColor('rgba(255,255,255,0.40)')
+        .onClick(() => {
+          GlobalContext.getContext().setObject('taskListChange', true);
+          this.confirm();
+        })
       }
-      .width($r('app.float.default_220'))
-      .borderRadius($r('app.float.default_24'))
-      .backgroundColor('rgba(255,255,255,0.40)')
-      .onClick(() => {
-        GlobalContext.getContext().setObject('taskListChange', true);
-        this.confirm();
-      })
-      .visibility(!this.showButton ? Visibility.None : Visibility.Visible)
 
       Text($r('app.string.got_it'))
         .fontSize($r('app.float.default_14'))
